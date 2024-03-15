@@ -1,6 +1,7 @@
 package br.com.stayway.booking.controller;
 
 import br.com.stayway.booking.controller.request.ClienteReservationDTO;
+import br.com.stayway.booking.controller.request.MaintenenceReservationDTO;
 import br.com.stayway.booking.exception.ReservationNotFoundException;
 import br.com.stayway.booking.model.Reservation;
 import br.com.stayway.booking.service.ReservationService;
@@ -21,6 +22,12 @@ public class ReservationController {
 
     @PostMapping
     public ResponseEntity<Void> addReservation(@RequestBody ClienteReservationDTO reservation) {
+        reservationService.addReservation(reservation.toEntity());
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/admin/maintenence")
+    public ResponseEntity<Void> addMaintenenceReservation(@RequestBody MaintenenceReservationDTO reservation) {
         reservationService.addReservation(reservation.toEntity());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
