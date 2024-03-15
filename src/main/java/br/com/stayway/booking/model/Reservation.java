@@ -3,12 +3,9 @@ package br.com.stayway.booking.model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import br.com.stayway.booking.model.dto.BookedRoomDTO;
 import br.com.stayway.booking.model.entries.AdditionalsEntry;
 import br.com.stayway.booking.model.entries.RoomEntry;
 import br.com.stayway.booking.model.enums.ReservationStatus;
@@ -34,7 +31,7 @@ public class Reservation {
 
     private List<RoomEntry> bookedRooms;
 
-    private List<AdditionalsEntry> aditionals;
+    private List<AdditionalsEntry> additionals;
 
     // lista de adicionais
 
@@ -51,7 +48,7 @@ public class Reservation {
         this.checkout = checkout;
         this.hotelId = hotelId;
         this.bookedRooms = bookedRooms;
-        this.aditionals = new ArrayList<>();
+        this.additionals = new ArrayList<>();
     }
 
     // -----
@@ -122,20 +119,11 @@ public class Reservation {
         this.bookedRooms = bookedRooms;
     }
 
-    public List<AdditionalsEntry> getAditionals() {
-        return aditionals;
+    public List<AdditionalsEntry> getAdditionals() {
+        return additionals;
     }
 
-    public void setAditionals(List<AdditionalsEntry> aditionals) {
-        this.aditionals = aditionals;
-    }
-
-    // -----
-    // Methods
-    // -----
-    public List<BookedRoomDTO> toBookings() {
-        return bookedRooms.stream()
-                .map(room -> new BookedRoomDTO(room.getRoomId(), checkin, checkout, room.getNumberOfRooms()))
-                .collect(Collectors.toList());
+    public void setAdditionals(List<AdditionalsEntry> additionals) {
+        this.additionals = additionals;
     }
 }
