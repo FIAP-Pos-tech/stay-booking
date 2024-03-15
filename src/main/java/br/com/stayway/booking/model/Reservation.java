@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import br.com.stayway.booking.model.entries.RoomEntry;
 import br.com.stayway.booking.model.enums.ReservationStatus;
 
 // location -> hotel -> quartos

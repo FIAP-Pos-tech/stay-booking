@@ -2,7 +2,7 @@ package br.com.stayway.booking.service;
 
 import br.com.stayway.booking.exception.ReservationNotFoundException;
 import br.com.stayway.booking.model.Reservation;
-import br.com.stayway.booking.model.RoomEntry;
+import br.com.stayway.booking.model.entries.RoomEntry;
 import br.com.stayway.booking.model.enums.ReservationStatus;
 import br.com.stayway.booking.repository.ReservationRepository;
 import org.junit.jupiter.api.Test;
