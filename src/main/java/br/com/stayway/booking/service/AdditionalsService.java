@@ -22,7 +22,7 @@ public class AdditionalsService {
             throw new ReservationNotFoundException(reservationId);
         }
 
-        var newReserve = AdditionalsUseCase.updateAdicional(reserveOpt.get(), additional);
+        var newReserve = AdditionalsUseCase.updateAddicional(reserveOpt.get(), additional);
         reservationRepository.save(newReserve);
     }
 

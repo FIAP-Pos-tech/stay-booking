@@ -21,14 +21,14 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> addReservation(@RequestBody ClienteReservationDTO reservation) {
-        reservationService.addReservation(reservation.toEntity());
+    public ResponseEntity<Void> addReservation(@RequestBody ClienteReservationDTO reservationDto) {
+        reservationService.addReservation(reservationDto.toEntity());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/admin/maintenence")
-    public ResponseEntity<Void> addMaintenenceReservation(@RequestBody MaintenenceReservationDTO reservation) {
-        reservationService.addReservation(reservation.toEntity());
+    public ResponseEntity<Void> addMaintenenceReservation(@RequestBody MaintenenceReservationDTO reservationDto) {
+        reservationService.addReservation(reservationDto.toEntity());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

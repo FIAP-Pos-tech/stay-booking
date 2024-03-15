@@ -1,5 +1,6 @@
 package br.com.stayway.booking.use_case;
 
+import br.com.stayway.booking.exception.ReservationUpdateException;
 import br.com.stayway.booking.model.Reservation;
 import br.com.stayway.booking.model.entries.AdditionalsEntry;
 import br.com.stayway.booking.model.enums.ReservationStatus;
@@ -7,9 +8,9 @@ import br.com.stayway.booking.model.enums.ReservationStatus;
 public class AdditionalsUseCase {
 
     // Update if the additional is already present, add it otherwise
-    public static Reservation updateAdicional(Reservation reserve, AdditionalsEntry additional) {
+    public static Reservation updateAddicional(Reservation reserve, AdditionalsEntry additional) {
         if (reserve.getStatus() != ReservationStatus.OPENED) {
-            throw new RuntimeException("Cannot add additional to this Reserve.");
+            throw new ReservationUpdateException();
         }
 
         var additionals = reserve.getAditionals();
@@ -31,7 +32,7 @@ public class AdditionalsUseCase {
 
     public static Reservation removeAditional(Reservation reserve, String additionalId) {
         if (reserve.getStatus() != ReservationStatus.OPENED) {
-            throw new RuntimeException("Cannot add additional to this Reserve.");
+            throw new ReservationUpdateException();
         }
 
         var additionals = reserve.getAditionals();
