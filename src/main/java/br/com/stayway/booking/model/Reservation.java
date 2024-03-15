@@ -2,10 +2,12 @@ package br.com.stayway.booking.model;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import br.com.stayway.booking.model.dto.BookedRoomDTO;
 import br.com.stayway.booking.model.entries.RoomEntry;
 import br.com.stayway.booking.model.enums.ReservationStatus;
 
@@ -15,6 +17,8 @@ import br.com.stayway.booking.model.enums.ReservationStatus;
 public class Reservation {
     @Id
     private String id;
+
+    private String clientId;
 
     private ReservationStatus status;
 
@@ -33,9 +37,10 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(String id, ReservationStatus status, Integer numberOfguests, LocalDate checkin,
+    public Reservation(String id, String clientId, ReservationStatus status, Integer numberOfguests, LocalDate checkin,
             LocalDate checkout, String hotelId, List<RoomEntry> bookedRooms) {
         this.id = id;
+        this.clientId = clientId;
         this.status = status;
         this.numberOfguests = numberOfguests;
         this.checkin = checkin;
@@ -44,12 +49,24 @@ public class Reservation {
         this.bookedRooms = bookedRooms;
     }
 
+    // -----
+    // Getters and Setters
+    // -----
+
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 
     public ReservationStatus getStatus() {
@@ -99,11 +116,14 @@ public class Reservation {
     public void setBookedRooms(List<RoomEntry> bookedRooms) {
         this.bookedRooms = bookedRooms;
     }
+
+    // -----
+    // Methods
+    // -----
+    public List<BookedRoomDTO> toBookings() {
+        return bookedRooms.stream()
+                .map(room -> new BookedRoomDTO(room.getRoomId(), checkin, checkout, room.getNumberOfRooms()))
+                .collect(Collectors.toList());
+    }
+
 }
-
-// check_month() -> Array[31](1 8)(2 6)
-
-
-// Abacaxi
-// 10 q standard
-

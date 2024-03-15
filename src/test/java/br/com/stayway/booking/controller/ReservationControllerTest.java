@@ -1,5 +1,6 @@
 package br.com.stayway.booking.controller;
 
+import br.com.stayway.booking.controller.request.ClienteReservationDTO;
 import br.com.stayway.booking.exception.ReservationNotFoundException;
 import br.com.stayway.booking.model.Reservation;
 import br.com.stayway.booking.model.entries.RoomEntry;
@@ -30,26 +31,18 @@ public class ReservationControllerTest {
 
     @Test
     public void shouldCreateReservationTest() {
-
-        Reservation reservation = new Reservation();
-        reservation.setId("1");
-        reservation.setStatus(ReservationStatus.CONFIRMED);
-        reservation.setNumberOfguests(2);
-        reservation.setCheckin(LocalDate.of(2024, 3, 15));
-        reservation.setCheckout(LocalDate.of(2024, 3, 20));
-        reservation.setHotelId("123456");
-
         RoomEntry roomEntry = new RoomEntry();
         roomEntry.setRoomId("room123");
         roomEntry.setNumberOfRooms(1);
-
         List<RoomEntry> bookedRooms = new ArrayList<>();
         bookedRooms.add(roomEntry);
-        reservation.setBookedRooms(bookedRooms);
 
-        doNothing().when(reservationService).addReservation(reservation);
-        ResponseEntity<Void> response = reservationController.addReservation(reservation);
-        verify(reservationService, times(1)).addReservation(reservation);
+        var reservationDto = new ClienteReservationDTO("C001", 2, LocalDate.of(2024, 3, 15), LocalDate.of(2024, 3, 20),
+                "123456", bookedRooms);
+
+        doNothing().when(reservationService).addReservation(any(Reservation.class));
+        ResponseEntity<Void> response = reservationController.addReservation(reservationDto);
+        verify(reservationService, times(1)).addReservation(any(Reservation.class));
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
 
@@ -101,7 +94,8 @@ public class ReservationControllerTest {
         reservation.setBookedRooms(bookedRooms);
 
         when(reservationService.searchReservationById("1")).thenReturn(reservation);
-        when(reservationService.searchReservationById("2")).thenThrow(new ReservationNotFoundException("Reservation with ID 2 not found"));
+        when(reservationService.searchReservationById("2"))
+                .thenThrow(new ReservationNotFoundException("Reservation with ID 2 not found"));
         ResponseEntity<Reservation> response1 = reservationController.getReservationById("1");
         verify(reservationService, times(1)).searchReservationById("1");
         assertThat(response1.getStatusCode()).isEqualTo(HttpStatus.OK);

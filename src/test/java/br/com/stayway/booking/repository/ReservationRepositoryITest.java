@@ -45,11 +45,11 @@ public class ReservationRepositoryITest {
     public void setup() {
 
         List<Reservation> reserves = List.of(
-                new Reservation(null, ReservationStatus.CONFIRMED, 4, beginingDate, endDate, "0",
+                new Reservation(null, "C001", ReservationStatus.CONFIRMED, 4, beginingDate, endDate, "0",
                         List.of(new RoomEntry("0", 2))),
-                new Reservation(null, ReservationStatus.CONFIRMED, 4, beginingDate, endDate, "0",
+                new Reservation(null, "C002", ReservationStatus.CONFIRMED, 4, beginingDate, endDate, "0",
                         List.of(new RoomEntry("0", 2), new RoomEntry("1", 2))),
-                new Reservation(null, ReservationStatus.CONFIRMED, 7, beginingDate.plusDays(1), endDate.minusDays(1), "0",
+                new Reservation(null, "C003", ReservationStatus.CONFIRMED, 7, beginingDate.plusDays(1), endDate.minusDays(1), "0",
                         List.of(new RoomEntry("0", 3), new RoomEntry("1", 1)))
 
         // new Reservation(null, ReservationStatus.MAINTENANCE, 0, inicio, fim, "0",
