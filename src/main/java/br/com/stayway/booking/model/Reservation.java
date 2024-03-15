@@ -18,7 +18,7 @@ public class Reservation {
     @Id
     private String id;
 
-    private String clientId;
+    private String userId;
 
     private ReservationStatus status;
 
@@ -37,10 +37,10 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(String id, String clientId, ReservationStatus status, Integer numberOfguests, LocalDate checkin,
+    public Reservation(String id, String userId, ReservationStatus status, Integer numberOfguests, LocalDate checkin,
             LocalDate checkout, String hotelId, List<RoomEntry> bookedRooms) {
         this.id = id;
-        this.clientId = clientId;
+        this.userId = userId;
         this.status = status;
         this.numberOfguests = numberOfguests;
         this.checkin = checkin;
@@ -61,12 +61,12 @@ public class Reservation {
         this.id = id;
     }
 
-    public String getClientId() {
-        return clientId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public ReservationStatus getStatus() {
