@@ -1,9 +1,4 @@
-package br.com.stayway.booking.model;
-
-import java.time.LocalDate;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+package br.com.stayway.booking.model.entries;
 
 public class RoomEntry {
 
