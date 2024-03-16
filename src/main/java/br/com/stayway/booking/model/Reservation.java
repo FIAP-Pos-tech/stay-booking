@@ -10,8 +10,6 @@ import br.com.stayway.booking.model.entries.AdditionalEntry;
 import br.com.stayway.booking.model.entries.RoomEntry;
 import br.com.stayway.booking.model.enums.ReservationStatus;
 
-// location -> hotel -> quartos
-// uma reserva pode 
 @Document(collection = "reservations")
 public class Reservation {
     @Id
@@ -34,6 +32,8 @@ public class Reservation {
     private List<AdditionalEntry> additionals;
 
     public Reservation() {
+        bookedRooms = new ArrayList<>();
+        additionals = new ArrayList<>();
     }
 
     public Reservation(String id, String userId, ReservationStatus status, Integer numberOfguests, LocalDate checkin,
