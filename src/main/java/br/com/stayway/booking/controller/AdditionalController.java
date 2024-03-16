@@ -23,13 +23,13 @@ public class AdditionalController {
         this.additionalService = additionalService;
     }
 
-    @PutMapping("{/reservationId}")
+    @PutMapping("{reservationId}")
     public ResponseEntity<Void> updateAdditional(@PathVariable String reservationId, @RequestBody AdditionalEntry additional) {
         additionalService.updateAdditional(reservationId, additional);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("{/reservationId}/{additionalId}")
+    @DeleteMapping("{reservationId}/{additionalId}")
     public ResponseEntity<Void> removeAdditional(@PathVariable String reservationId, @PathVariable String additionalId) {
         additionalService.removeAdditional(reservationId, additionalId);
         return ResponseEntity.noContent().build();
