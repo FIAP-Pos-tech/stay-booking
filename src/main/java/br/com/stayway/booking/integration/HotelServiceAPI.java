@@ -14,10 +14,10 @@ import br.com.stayway.booking.integration.response.RoomResponse;
 @FeignClient(value = "hotel", url = "localhost:8080")
 public interface HotelServiceAPI {
 
-    @GetMapping(value = "/hotel/{id}/quartos")
+    @GetMapping(value = "api/hotel/{id}/quartos")
     List<RoomResponse> getHotelRooms(@PathVariable String id);
 
-    @PostMapping(value = "/adicional/lista")
+    @PostMapping(value = "api/adicional/lista")
     List<AdditionalResponse> obtainAdditionals(List<ObtainAdditionalRequest> ObtainAdditionalsRequest);
 
 }

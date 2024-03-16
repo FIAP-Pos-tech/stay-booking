@@ -25,10 +25,10 @@ public interface ReservationRepository extends MongoRepository<Reservation, Stri
     @Aggregation(pipeline = {
         "{$match: { 'checkin': {$lte: ?1} , 'checkout': {$gte: ?0}, 'status': { $nin: ['CANCELLED', 'OPENED'] }}}",
         "{$unwind: '$bookedRooms'}",
-        "{$match: { 'bookedRooms.roomId': { $in: ?2 } }}",
+        "{$match: { 'bookedRooms.roomId': ?2 }}",
         "{$project: { 'checkInDate': '$checkin', 'checkOutDate': '$checkout', 'roomId': '$bookedRooms.roomId', 'numberOfRooms': '$bookedRooms.numberOfRooms' }}",
         "{$sort: { 'checkInDate': 1, 'roomId': 1 }}"
     })
-    List<BookedRoomDTO> findRoomsBookings(LocalDate checkInDate, LocalDate checkOutDate, List<String> roomIds);
+    List<BookedRoomDTO> findRoomBookings(LocalDate checkInDate, LocalDate checkOutDate, String roomIds);
 
 }

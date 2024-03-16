@@ -90,7 +90,7 @@ public class ReservationRepositoryITest {
         LocalDate checkInDate = LocalDate.of(2024, 1, 26);
         LocalDate checkOutDate = LocalDate.of(2024, 1, 31);
 
-        var result = reservationRepository.findRoomsBookings(checkInDate, checkOutDate, List.of("1"));
+        var result = reservationRepository.findRoomBookings(checkInDate, checkOutDate, "1");
 
         List<BookedRoomDTO> expected = List.of(
             new BookedRoomDTO("1", beginingDate, endDate, 2),

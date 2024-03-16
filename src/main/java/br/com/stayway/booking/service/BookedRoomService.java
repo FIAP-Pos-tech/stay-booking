@@ -2,9 +2,6 @@ package br.com.stayway.booking.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Service;
 
 import br.com.stayway.booking.model.BookedRoomCalendar;
@@ -27,25 +24,16 @@ public class BookedRoomService {
 
     // return a list of bookings for the given rooms and period. Rooms must belong
     // to the same hotel.
-    public List<BookedRoomDTO> roomsBookings(LocalDate checkInDate, LocalDate checkOutDate,
-            List<String> roomIds) {
-        return reservationRepository.findRoomsBookings(checkInDate, checkOutDate, roomIds);
+    public List<BookedRoomDTO> roomBooking(LocalDate checkInDate, LocalDate checkOutDate, String roomIds) {
+        return reservationRepository.findRoomBookings(checkInDate, checkOutDate, roomIds);
     }
 
     // return the calendar of reservations for the given room and period
     public BookedRoomCalendar roomBookingCalendar(String roomId, LocalDate checkInDate,
             LocalDate checkOutDate) {
-        List<BookedRoomDTO> bookings = roomsBookings(checkInDate, checkOutDate, List.of(roomId));
+        List<BookedRoomDTO> bookings = roomBooking(checkInDate, checkOutDate, roomId);
         var calendar = new BookedRoomCalendar(roomId, checkInDate, checkOutDate);
         bookings.stream().filter(b -> b.roomId().equals(roomId)).forEach(b -> calendar.addBooking(b));
         return calendar;
     }
-
-    // return a list of calendars for each room
-    public List<BookedRoomCalendar> roomBookingCalendars(Set<String> roomIds, LocalDate checkInDate,
-            LocalDate checkOutDate) {
-        return roomIds.stream().map(id -> roomBookingCalendar(id, checkInDate, checkOutDate))
-                .collect(Collectors.toList());
-    }
-
 }
