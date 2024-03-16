@@ -15,7 +15,7 @@ import br.com.stayway.booking.integration.response.RoomResponse;
 public interface HotelServiceAPI {
 
     @GetMapping(value = "/hotel/{id}/quartos")
-    List<RoomResponse> getHotelRooms(@PathVariable String hotelId);
+    List<RoomResponse> getHotelRooms(@PathVariable String id);
 
     @PostMapping(value = "/adicional/lista")
     List<AdditionalResponse> obtainAdditionals(List<ObtainAdditionalRequest> ObtainAdditionalsRequest);

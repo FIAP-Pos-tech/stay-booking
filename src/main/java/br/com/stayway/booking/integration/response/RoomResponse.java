@@ -1,5 +1,5 @@
 package br.com.stayway.booking.integration.response;
 
-public record RoomResponse(String id, String description, int quantidade, Double valor) {
+public record RoomResponse(String id, String tipo, int quantidade, Double valor) {
     
 }

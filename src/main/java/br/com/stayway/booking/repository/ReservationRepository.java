@@ -15,7 +15,7 @@ public interface ReservationRepository extends MongoRepository<Reservation, Stri
 
     // checkin and checkout date are swapped in the query
     @Aggregation(pipeline = {
-        "{$match: { 'hotelId': ?0, 'checkin': {$lte: ?2} , 'checkout': {$gte: ?1}, 'status': { $ne: 'CANCELLED' }}}",
+        "{$match: { 'hotelId': ?0, 'checkin': {$lte: ?2} , 'checkout': {$gte: ?1}, 'status': { $nin: ['CANCELLED', 'OPENED'] }}}",
         "{$unwind: '$bookedRooms'}",
         "{$project: { 'checkInDate': '$checkin', 'checkOutDate': '$checkout', 'roomId': '$bookedRooms.roomId', 'numberOfRooms': '$bookedRooms.numberOfRooms' }}",
         "{$sort: { 'checkInDate': 1, 'roomId': 1 }}"
@@ -23,7 +23,7 @@ public interface ReservationRepository extends MongoRepository<Reservation, Stri
     List<BookedRoomDTO> findHotelBookings(String hotelId, LocalDate checkInDate, LocalDate checkOutDate);
 
     @Aggregation(pipeline = {
-        "{$match: { 'checkin': {$lte: ?1} , 'checkout': {$gte: ?0}, 'status': { $ne: 'CANCELLED' }}}",
+        "{$match: { 'checkin': {$lte: ?1} , 'checkout': {$gte: ?0}, 'status': { $nin: ['CANCELLED', 'OPENED'] }}}",
         "{$unwind: '$bookedRooms'}",
         "{$match: { 'bookedRooms.roomId': { $in: ?2 } }}",
         "{$project: { 'checkInDate': '$checkin', 'checkOutDate': '$checkout', 'roomId': '$bookedRooms.roomId', 'numberOfRooms': '$bookedRooms.numberOfRooms' }}",

@@ -2,6 +2,7 @@ package br.com.stayway.booking.controller;
 
 import br.com.stayway.booking.controller.request.ClienteReservationDTO;
 import br.com.stayway.booking.controller.request.MaintenenceReservationDTO;
+import br.com.stayway.booking.controller.response.ReservationReceiptResponse;
 import br.com.stayway.booking.exception.ReservationNotFoundException;
 import br.com.stayway.booking.model.Reservation;
 import br.com.stayway.booking.service.ReservationService;
@@ -69,10 +70,9 @@ public class ReservationController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/check-totais/{id}")
-    public HttpEntity<Void> checkTotais(@PathVariable String id) {
-        reservationService.checkTotais(id);
-        return ResponseEntity.ok().build();
+    @GetMapping("/check-totais/{id}")
+    public HttpEntity<ReservationReceiptResponse> checkTotais(@PathVariable String id) {
+        return ResponseEntity.ok(reservationService.checkTotais(id));
     }
 
 }

@@ -3,6 +3,7 @@ package br.com.stayway.booking.service;
 import br.com.stayway.booking.controller.response.ReservationReceiptResponse;
 import br.com.stayway.booking.exception.NoSuchRoomException;
 import br.com.stayway.booking.exception.ReservationNotFoundException;
+import br.com.stayway.booking.exception.ReservationUpdateException;
 import br.com.stayway.booking.integration.HotelServiceAPI;
 import br.com.stayway.booking.integration.request.ObtainAdditionalRequest;
 import br.com.stayway.booking.integration.response.AdditionalResponse;
@@ -76,6 +77,9 @@ public class ReservationService {
                 .orElseThrow(() -> new ReservationNotFoundException(id));
 
         // update status to block new updating attempts
+        if (reservation.getStatus() != ReservationStatus.OPENED) {
+            throw new ReservationUpdateException();
+        }
         reservation.setStatus(ReservationStatus.PROCESSING);
         reservation = reservationRepository.save(reservation);
 
