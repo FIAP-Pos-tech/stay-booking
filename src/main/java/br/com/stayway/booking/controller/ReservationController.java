@@ -12,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -68,6 +66,12 @@ public class ReservationController {
     @PostMapping("/confirm/{id}")
     public HttpEntity<Void> confirmReservation(@PathVariable String id) {
         reservationService.confirmReservation(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/check-totais/{id}")
+    public HttpEntity<Void> checkTotais(@PathVariable String id) {
+        reservationService.checkTotais(id);
         return ResponseEntity.ok().build();
     }
 

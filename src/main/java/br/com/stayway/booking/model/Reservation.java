@@ -31,6 +31,8 @@ public class Reservation {
 
     private List<AdditionalEntry> additionals;
 
+    private ReservationReceipt receipt;
+
     public Reservation() {
         bookedRooms = new ArrayList<>();
         additionals = new ArrayList<>();
@@ -47,6 +49,22 @@ public class Reservation {
         this.hotelId = hotelId;
         this.bookedRooms = bookedRooms;
         this.additionals = new ArrayList<>();
+        this.receipt = null;
+    }
+
+    public Reservation(String id, String userId, ReservationStatus status, Integer numberOfguests, LocalDate checkin,
+            LocalDate checkout, String hotelId, List<RoomEntry> bookedRooms, List<AdditionalEntry> additionals,
+            ReservationReceipt receipt) {
+        this.id = id;
+        this.userId = userId;
+        this.status = status;
+        this.numberOfguests = numberOfguests;
+        this.checkin = checkin;
+        this.checkout = checkout;
+        this.hotelId = hotelId;
+        this.bookedRooms = bookedRooms;
+        this.additionals = additionals;
+        this.receipt = receipt;
     }
 
     // -----
@@ -123,5 +141,13 @@ public class Reservation {
 
     public void setAdditionals(List<AdditionalEntry> additionals) {
         this.additionals = additionals;
+    }
+
+    public ReservationReceipt getReceipt() {
+        return receipt;
+    }
+
+    public void setReceipt(ReservationReceipt receipt) {
+        this.receipt = receipt;
     }
 }

@@ -1,5 +1,6 @@
 package br.com.stayway.booking.service;
 
+import br.com.stayway.booking.controller.response.ReservationReceiptResponse;
 import br.com.stayway.booking.exception.NoSuchRoomException;
 import br.com.stayway.booking.exception.ReservationNotFoundException;
 import br.com.stayway.booking.integration.HotelServiceAPI;
@@ -10,17 +11,15 @@ import br.com.stayway.booking.model.AvailableRoomCalendar;
 import br.com.stayway.booking.model.BookedRoomCalendar;
 import br.com.stayway.booking.model.Reservation;
 import br.com.stayway.booking.model.dto.BookedRoomDTO;
-import br.com.stayway.booking.model.entries.RoomEntry;
 import br.com.stayway.booking.model.enums.ReservationStatus;
 import br.com.stayway.booking.repository.ReservationRepository;
+import br.com.stayway.booking.use_case.AssembleReceiptUseCase;
 import br.com.stayway.booking.use_case.ReserveUseCase;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -108,6 +107,22 @@ public class ReservationService {
 
         // update status to block new updating attempts
         reservation.setStatus(ReservationStatus.CONFIRMED);
+        reservation.setReceipt(AssembleReceiptUseCase.assembleReservation(reservation, hotelRooms, additionals));
         reservation = reservationRepository.save(reservation);
+    }
+
+    public ReservationReceiptResponse checkTotais(String id) {
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new ReservationNotFoundException(id));
+        
+        List<RoomResponse> rooms = hotelServiceAPI.getHotelRooms(reservation.getHotelId());
+
+        var additionalList = reservation.getAdditionals().stream()
+                .map(a -> new ObtainAdditionalRequest(a.getId(), a.getQuantity()))
+                .collect(Collectors.toList());
+        List<AdditionalResponse> additionals = hotelServiceAPI.obtainAdditionals(additionalList);
+
+        var receipt = AssembleReceiptUseCase.assembleReservation(reservation, rooms, additionals);
+        return new ReservationReceiptResponse(reservation.getCheckin(), reservation.getCheckout(), receipt);
     }
 }
