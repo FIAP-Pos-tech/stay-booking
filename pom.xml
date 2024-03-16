@@ -57,9 +57,27 @@
 			<artifactId>mongodb</artifactId>
     		<scope>test</scope>
 		</dependency>
-		
-	</dependencies>
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<version>4.0.6</version>
+		</dependency>
 
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-gson</artifactId>
+			<version>11.5</version> <!-- Versão pode variar -->
+		</dependency>
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-jackson</artifactId>
+			<version>11.5</version> <!-- Versão compatível com o Feign que você está utilizando -->
+		</dependency>
+
+
+
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
@@ -68,5 +86,16 @@
 			</plugin>
 		</plugins>
 	</build>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>2023.0.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 </project>
