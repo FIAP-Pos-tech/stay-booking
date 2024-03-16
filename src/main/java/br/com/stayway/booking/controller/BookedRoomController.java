@@ -36,10 +36,10 @@ public class BookedRoomController {
     // Returns a list of bookings for the given rooms and period.
     // The rooms must belong to the same hotel.
     @GetMapping("/admin/room-bookings")
-    public ResponseEntity<List<BookedRoomDTO>> roomsBookings(
+    public ResponseEntity<List<BookedRoomDTO>> roomBookings(
+            @RequestParam String roomId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkInDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOutDate,
-            @RequestParam String roomId) {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOutDate) {
 
         return ResponseEntity.ok(bookedRoomService.roomBooking(checkInDate, checkOutDate, roomId));
     }
