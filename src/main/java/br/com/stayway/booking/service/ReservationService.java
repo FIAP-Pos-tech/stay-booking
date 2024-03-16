@@ -1,6 +1,11 @@
 package br.com.stayway.booking.service;
 
+import br.com.stayway.booking.exception.NoSuchRoomException;
 import br.com.stayway.booking.exception.ReservationNotFoundException;
+import br.com.stayway.booking.integration.HotelServiceAPI;
+import br.com.stayway.booking.integration.request.ObtainAdditionalRequest;
+import br.com.stayway.booking.integration.response.AdditionalResponse;
+import br.com.stayway.booking.integration.response.RoomResponse;
 import br.com.stayway.booking.model.AvailableRoomCalendar;
 import br.com.stayway.booking.model.BookedRoomCalendar;
 import br.com.stayway.booking.model.Reservation;
@@ -23,10 +28,13 @@ public class ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final BookedRoomService bookedRoomService;
+    private final HotelServiceAPI hotelServiceAPI;
 
-    public ReservationService(ReservationRepository reservationRepository, BookedRoomService bookedRoomService) {
+    public ReservationService(ReservationRepository reservationRepository, BookedRoomService bookedRoomService,
+            HotelServiceAPI hotelServiceAPI) {
         this.reservationRepository = reservationRepository;
         this.bookedRoomService = bookedRoomService;
+        this.hotelServiceAPI = hotelServiceAPI;
     }
 
     public void addReservation(Reservation reservation) {
@@ -78,17 +86,22 @@ public class ReservationService {
                 .map(room -> new BookedRoomDTO(room.getRoomId(), checkin, checkout, room.getNumberOfRooms()))
                 .collect(Collectors.toList());
 
-        // TODO: getTotalRooms
-        List<RoomEntry> totalRooms = new ArrayList<>();
+        // Integrate with hotels service
+        List<RoomResponse> hotelRooms = hotelServiceAPI.getHotelRooms(reservation.getHotelId());
+
+        var additionalList = reservation.getAdditionals().stream()
+                .map(a -> new ObtainAdditionalRequest(a.getId(), a.getQuantity()))
+                .collect(Collectors.toList());
+        List<AdditionalResponse> additionals = hotelServiceAPI.obtainAdditionals(additionalList);
 
         // checks room availability
         for (BookedRoomDTO room : rooms) {
             BookedRoomCalendar bCalendar = bookedRoomService.roomBookingCalendar(room.roomId(), checkin, checkout);
-            int tRooms = totalRooms.stream()
-                    .filter(tRoom -> tRoom.getRoomId().equals(room.roomId()))
+            int tRooms = hotelRooms.stream()
+                    .filter(tRoom -> tRoom.id().equals(room.roomId()))
                     .findFirst()
-                    .orElseThrow(() -> new NoSuchElementException())
-                    .getNumberOfRooms();
+                    .orElseThrow(() -> new NoSuchRoomException())
+                    .quantidade();
             AvailableRoomCalendar aCalendar = new AvailableRoomCalendar(bCalendar, tRooms);
             ReserveUseCase.checkRoomAvailability(room, aCalendar);
         }

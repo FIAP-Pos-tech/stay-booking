@@ -2,9 +2,9 @@ package br.com.stayway.booking.model.entries;
 
 public class AdditionalEntry {
     private String id;
-    private String quantity;
+    private int quantity;
 
-    public AdditionalEntry(String id, String quantity) {
+    public AdditionalEntry(String id, int quantity) {
         this.id = id;
         this.quantity = quantity;
     }
@@ -17,11 +17,11 @@ public class AdditionalEntry {
         this.id = id;
     }
 
-    public String getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
     
