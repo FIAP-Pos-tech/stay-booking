@@ -26,12 +26,12 @@ public class ReservationService {
 
     public Reservation searchReservationById(String id) {
         return reservationRepository.findById(id)
-                .orElseThrow(() -> new ReservationNotFoundException("Reservation with ID " + id + " not found."));
+                .orElseThrow(() -> new ReservationNotFoundException(id));
     }
 
     public void updateReservation(String id, Reservation updatedReservation) {
         Reservation existingReservation = reservationRepository.findById(id)
-                .orElseThrow(() -> new ReservationNotFoundException("Reservation with ID " + id + " not found."));
+                .orElseThrow(() -> new ReservationNotFoundException(id));
 
         existingReservation.setStatus(updatedReservation.getStatus());
         existingReservation.setNumberOfguests(existingReservation.getNumberOfguests());
@@ -45,7 +45,7 @@ public class ReservationService {
 
     public void deleteReservation(String id) {
         Reservation existingReservation = reservationRepository.findById(id)
-                .orElseThrow(() -> new ReservationNotFoundException("Reservation with ID " + id + " not found."));
+                .orElseThrow(() -> new ReservationNotFoundException(id));
 
         reservationRepository.delete(existingReservation);
     }

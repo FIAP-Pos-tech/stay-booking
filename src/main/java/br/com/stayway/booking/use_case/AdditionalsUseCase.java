@@ -8,12 +8,12 @@ import br.com.stayway.booking.model.enums.ReservationStatus;
 public class AdditionalsUseCase {
 
     // Update if the additional is already present, add it otherwise
-    public static Reservation updateAddicional(Reservation reserve, AdditionalsEntry additional) {
+    public static Reservation updateAdditional(Reservation reserve, AdditionalsEntry additional) {
         if (reserve.getStatus() != ReservationStatus.OPENED) {
             throw new ReservationUpdateException();
         }
 
-        var additionals = reserve.getAditionals();
+        var additionals = reserve.getAdditionals();
         
         if (additionals.isEmpty()) {
             additionals.add(additional);
@@ -23,7 +23,7 @@ public class AdditionalsUseCase {
             .findFirst()
             .ifPresentOrElse(
                     item -> item.setQuantity(additional.getQuantity()),
-                    () -> reserve.getAditionals().add(additional)
+                    () -> reserve.getAdditionals().add(additional)
             );
         }
         
@@ -35,10 +35,10 @@ public class AdditionalsUseCase {
             throw new ReservationUpdateException();
         }
 
-        var additionals = reserve.getAditionals();
+        var additionals = reserve.getAdditionals();
 
         if (additionals != null && !additionals.isEmpty()) {
-            reserve.getAditionals().removeIf(item -> item.getId().equals(additionalId));
+            reserve.getAdditionals().removeIf(item -> item.getId().equals(additionalId));
         }
 
         return reserve;

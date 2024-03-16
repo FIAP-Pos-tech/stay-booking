@@ -12,11 +12,11 @@ import br.com.stayway.booking.model.dto.BookedRoomDTO;
 import br.com.stayway.booking.repository.ReservationRepository;
 
 @Service
-public class BookedRoomsService {
+public class BookedRoomService {
 
     private final ReservationRepository reservationRepository;
 
-    public BookedRoomsService(ReservationRepository reservationRepository) {
+    public BookedRoomService(ReservationRepository reservationRepository) {
         this.reservationRepository = reservationRepository;
     }
 

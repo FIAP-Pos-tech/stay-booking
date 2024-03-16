@@ -8,21 +8,21 @@ import br.com.stayway.booking.repository.ReservationRepository;
 import br.com.stayway.booking.use_case.AdditionalsUseCase;
 
 @Service
-public class AdditionalsService {
+public class AdditionalService {
 
     private final ReservationRepository reservationRepository;
 
-    public AdditionalsService(ReservationRepository reservationRepository) {
+    public AdditionalService(ReservationRepository reservationRepository) {
         this.reservationRepository = reservationRepository;
     }
 
-    public void updateAddicional(String reservationId, AdditionalsEntry additional) {
+    public void updateAdditional(String reservationId, AdditionalsEntry additional) {
         var reserveOpt = reservationRepository.findById(reservationId);
         if (reserveOpt.isEmpty()) {
             throw new ReservationNotFoundException(reservationId);
         }
 
-        var newReserve = AdditionalsUseCase.updateAddicional(reserveOpt.get(), additional);
+        var newReserve = AdditionalsUseCase.updateAdditional(reserveOpt.get(), additional);
         reservationRepository.save(newReserve);
     }
 
