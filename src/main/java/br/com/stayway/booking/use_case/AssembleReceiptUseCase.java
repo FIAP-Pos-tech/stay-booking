@@ -18,13 +18,13 @@ public class AssembleReceiptUseCase {
         reservation.getBookedRooms().forEach(room -> {
             RoomResponse item = roomData.stream().filter(rd -> rd.id().equals(room.getRoomId())).findFirst()
                     .orElseThrow(() -> new NoSuchRoomException());
-            receipt.addItem(new ReceiptItem(item.tipo(), "Room", room.getNumberOfRooms(), item.valor()));
+            receipt.addItem(new ReceiptItem(item.tipo(), "Room", room.getNumberOfRooms(), item.valor() * room.getNumberOfRooms()));
         });
 
         reservation.getAdditionals().forEach(additional -> {
             AdditionalResponse item = additionalData.stream().filter(ad -> ad.id().equals(additional.getId()))
                     .findFirst().orElseThrow(() -> new NoSuchAdditionalException());
-            receipt.addItem(new ReceiptItem(item.obs(), item.tipo(), item.quantidade(), item.valor()));
+            receipt.addItem(new ReceiptItem(item.obs(), item.tipo(), item.quantidade(), item.valor() * item.quantidade()));
         });
 
         return receipt;
