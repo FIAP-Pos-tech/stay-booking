@@ -1,12 +1,13 @@
 package br.com.stayway.booking.use_case;
 
 import br.com.stayway.booking.exception.InvalidRoomCalendarException;
+import br.com.stayway.booking.exception.RoomUnavailableException;
 import br.com.stayway.booking.model.AvailableRoomCalendar;
 import br.com.stayway.booking.model.dto.BookedRoomDTO;
 
 public class ReserveUseCase {
 
-    public static boolean checkRoomAvailability(BookedRoomDTO room, AvailableRoomCalendar calendar) {
+    public static void checkRoomAvailability(BookedRoomDTO room, AvailableRoomCalendar calendar) {
 
         if (!room.roomId().equals(calendar.getRoomId())) {
             throw new InvalidRoomCalendarException();
@@ -14,6 +15,7 @@ public class ReserveUseCase {
 
         var checkin = room.checkInDate();
         var checkout = room.checkOutDate();
+        var bookedRooms = room.numberOfRooms();
 
         if (checkin.isBefore(calendar.getCheckInDate())
                 || checkin.isAfter(calendar.getCheckOutDate())
@@ -21,13 +23,15 @@ public class ReserveUseCase {
                 || checkout.isAfter(calendar.getCheckOutDate())) {
             throw new InvalidRoomCalendarException();
         }
-        
-        boolean available = calendar.getDates().stream().allMatch(date -> {
-                var reservedRooms = date.getNumberOfRooms() - room.numberOfRooms();
-                return reservedRooms >= 0;
-            });
 
-        return available;
+        calendar.getDates().stream()
+                .filter(date -> {
+                    var availableRooms = date.getNumberOfRooms();
+                    var reservedRooms = availableRooms - bookedRooms;
+                    return reservedRooms < 0;
+                })
+                .findAny()
+                .ifPresent(unavailableDate -> new RoomUnavailableException(room.roomId(), unavailableDate.getDate()));
     }
 
-    }
+}

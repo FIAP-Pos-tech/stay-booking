@@ -5,11 +5,16 @@ import br.com.stayway.booking.controller.request.MaintenenceReservationDTO;
 import br.com.stayway.booking.exception.ReservationNotFoundException;
 import br.com.stayway.booking.model.Reservation;
 import br.com.stayway.booking.service.ReservationService;
+
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("/reservation")
@@ -58,6 +63,12 @@ public class ReservationController {
     public ResponseEntity<Void> deleteReservation(@PathVariable String id) {
         reservationService.deleteReservation(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/confirm/{id}")
+    public HttpEntity<Void> confirmReservation(@PathVariable String id) {
+        reservationService.confirmReservation(id);
+        return ResponseEntity.ok().build();
     }
 
 }
