@@ -3,9 +3,9 @@ package br.com.stayway.booking.service;
 import org.springframework.stereotype.Service;
 
 import br.com.stayway.booking.exception.ReservationNotFoundException;
-import br.com.stayway.booking.model.entries.AdditionalsEntry;
+import br.com.stayway.booking.model.entries.AdditionalEntry;
 import br.com.stayway.booking.repository.ReservationRepository;
-import br.com.stayway.booking.use_case.AdditionalsUseCase;
+import br.com.stayway.booking.use_case.AdditionalUseCase;
 
 @Service
 public class AdditionalService {
@@ -16,13 +16,13 @@ public class AdditionalService {
         this.reservationRepository = reservationRepository;
     }
 
-    public void updateAdditional(String reservationId, AdditionalsEntry additional) {
+    public void updateAdditional(String reservationId, AdditionalEntry additional) {
         var reserveOpt = reservationRepository.findById(reservationId);
         if (reserveOpt.isEmpty()) {
             throw new ReservationNotFoundException(reservationId);
         }
 
-        var newReserve = AdditionalsUseCase.updateAdditional(reserveOpt.get(), additional);
+        var newReserve = AdditionalUseCase.updateAdditional(reserveOpt.get(), additional);
         reservationRepository.save(newReserve);
     }
 
@@ -32,7 +32,7 @@ public class AdditionalService {
             throw new ReservationNotFoundException(reservationId);
         }
         
-        var newReserve = AdditionalsUseCase.removeAditional(reserveOpt.get(), additionalId);
+        var newReserve = AdditionalUseCase.removeAdditional(reserveOpt.get(), additionalId);
         reservationRepository.save(newReserve);
     }
 }

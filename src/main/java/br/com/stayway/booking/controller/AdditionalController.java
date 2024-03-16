@@ -2,7 +2,7 @@ package br.com.stayway.booking.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.stayway.booking.model.entries.AdditionalsEntry;
+import br.com.stayway.booking.model.entries.AdditionalEntry;
 import br.com.stayway.booking.service.AdditionalService;
 
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @RestController
-@RequestMapping("/reservation/additionals")
+@RequestMapping("/reservation/additional")
 public class AdditionalController {
 
     private final AdditionalService additionalService;
@@ -24,7 +24,7 @@ public class AdditionalController {
     }
 
     @PutMapping("{reservationId}")
-    public ResponseEntity<Void> updateAdditional(@PathVariable String reservationId, @RequestBody AdditionalsEntry additional) {
+    public ResponseEntity<Void> updateAdditional(@PathVariable String reservationId, @RequestBody AdditionalEntry additional) {
         additionalService.updateAdditional(reservationId, additional);
         return ResponseEntity.ok().build();
     }

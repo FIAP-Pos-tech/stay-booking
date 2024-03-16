@@ -1,10 +1,10 @@
 package br.com.stayway.booking.model.entries;
 
-public class AdditionalsEntry {
+public class AdditionalEntry {
     private String id;
     private String quantity;
 
-    public AdditionalsEntry(String id, String quantity) {
+    public AdditionalEntry(String id, String quantity) {
         this.id = id;
         this.quantity = quantity;
     }

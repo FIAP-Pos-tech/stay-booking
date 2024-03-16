@@ -2,13 +2,13 @@ package br.com.stayway.booking.use_case;
 
 import br.com.stayway.booking.exception.ReservationUpdateException;
 import br.com.stayway.booking.model.Reservation;
-import br.com.stayway.booking.model.entries.AdditionalsEntry;
+import br.com.stayway.booking.model.entries.AdditionalEntry;
 import br.com.stayway.booking.model.enums.ReservationStatus;
 
-public class AdditionalsUseCase {
+public class AdditionalUseCase {
 
     // Update if the additional is already present, add it otherwise
-    public static Reservation updateAdditional(Reservation reserve, AdditionalsEntry additional) {
+    public static Reservation updateAdditional(Reservation reserve, AdditionalEntry additional) {
         if (reserve.getStatus() != ReservationStatus.OPENED) {
             throw new ReservationUpdateException();
         }
@@ -30,7 +30,7 @@ public class AdditionalsUseCase {
         return reserve;
     }
 
-    public static Reservation removeAditional(Reservation reserve, String additionalId) {
+    public static Reservation removeAdditional(Reservation reserve, String additionalId) {
         if (reserve.getStatus() != ReservationStatus.OPENED) {
             throw new ReservationUpdateException();
         }

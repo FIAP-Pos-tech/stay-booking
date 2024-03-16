@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import br.com.stayway.booking.model.entries.AdditionalsEntry;
+import br.com.stayway.booking.model.entries.AdditionalEntry;
 import br.com.stayway.booking.model.entries.RoomEntry;
 import br.com.stayway.booking.model.enums.ReservationStatus;
 
@@ -31,9 +31,7 @@ public class Reservation {
 
     private List<RoomEntry> bookedRooms;
 
-    private List<AdditionalsEntry> additionals;
-
-    // lista de adicionais
+    private List<AdditionalEntry> additionals;
 
     public Reservation() {
     }
@@ -119,11 +117,11 @@ public class Reservation {
         this.bookedRooms = bookedRooms;
     }
 
-    public List<AdditionalsEntry> getAdditionals() {
+    public List<AdditionalEntry> getAdditionals() {
         return additionals;
     }
 
-    public void setAdditionals(List<AdditionalsEntry> additionals) {
+    public void setAdditionals(List<AdditionalEntry> additionals) {
         this.additionals = additionals;
     }
 }
