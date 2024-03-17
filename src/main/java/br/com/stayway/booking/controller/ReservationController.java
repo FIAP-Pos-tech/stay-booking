@@ -65,9 +65,8 @@ public class ReservationController {
     }
 
     @PostMapping("/confirm/{id}")
-    public HttpEntity<Void> confirmReservation(@PathVariable String id) {
-        reservationService.confirmReservation(id);
-        return ResponseEntity.ok().build();
+    public HttpEntity<ReservationReceiptResponse> confirmReservation(@PathVariable String id) {
+        return ResponseEntity.ok(reservationService.confirmReservation(id));
     }
 
     @GetMapping("/check-totais/{id}")
