@@ -10,19 +10,21 @@ services:
     ports:
       - 27017:27017
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
     user: "1000"
     volumes:
-      - ./data_db/:/data/db/
+    # colocar :Z no final se SELinux
+    # give full permisson to data_db directory: sudo chmod a+rwx
+      - ./data_db/:/data/db/:Z
 
   mongo-express:
     image: mongo-express
     restart: always
     container_name: mongo_ui
     ports:
-      - 8081:8081
+      - 8091:8081
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_URL: mongodb://admin:password@mongo:27017/
