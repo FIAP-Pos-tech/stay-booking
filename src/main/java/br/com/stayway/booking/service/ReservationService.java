@@ -72,7 +72,7 @@ public class ReservationService {
     }
 
     @Transactional
-    public void confirmReservation(String id) {
+    public ReservationReceiptResponse confirmReservation(String id) {
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new ReservationNotFoundException(id));
 
@@ -113,6 +113,8 @@ public class ReservationService {
         reservation.setStatus(ReservationStatus.CONFIRMED);
         reservation.setReceipt(AssembleReceiptUseCase.assembleReservation(reservation, hotelRooms, additionals));
         reservation = reservationRepository.save(reservation);
+
+        return new ReservationReceiptResponse(reservation);
     }
 
     public ReservationReceiptResponse checkTotais(String id) {
@@ -127,6 +129,6 @@ public class ReservationService {
         List<AdditionalResponse> additionals = hotelServiceAPI.obtainAdditionals(additionalList);
 
         var receipt = AssembleReceiptUseCase.assembleReservation(reservation, rooms, additionals);
-        return new ReservationReceiptResponse(reservation.getCheckin(), reservation.getCheckout(), receipt);
+        return new ReservationReceiptResponse(reservation, receipt);
     }
 }

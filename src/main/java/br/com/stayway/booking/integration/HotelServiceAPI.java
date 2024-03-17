@@ -11,7 +11,7 @@ import br.com.stayway.booking.integration.request.ObtainAdditionalRequest;
 import br.com.stayway.booking.integration.response.AdditionalResponse;
 import br.com.stayway.booking.integration.response.RoomResponse;
 
-@FeignClient(value = "hotel", url = "localhost:8081")
+@FeignClient(value = "hotel", url = "stay-hotel:8081")
 public interface HotelServiceAPI {
 
     @GetMapping(value = "api/hotel/{id}/quartos")
